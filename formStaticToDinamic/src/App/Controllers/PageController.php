@@ -38,11 +38,17 @@
 
     }
 
-    public function services() {
+    public function services($procesado = false) {
 
       $main = "Services Page";
       require $this->viewsDir . 'service.view.php';
 
+    }
+
+    public function contactProccess(){
+      $formulario = $_POST;
+
+      $this->services(true);
     }
 
     public function about() {
