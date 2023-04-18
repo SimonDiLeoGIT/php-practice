@@ -1,49 +1,24 @@
 <?php
 
-    require __DIR__ . '/../vendor/autoload.php';
+    require __DIR__ . '/../src/bootstrap.php';
 
-    use Paw\App\Controllers\PageController;
-    use Paw\App\Controllers\ErrorController;
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
-
-    $log = new Logger('mvc-app');
-    $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/app.log', Logger::DEBUG));
-
-    
-
-    $whoops = new \Whoops\Run;
-    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-    $whoops->register();
-
-    /*throw new \Exception("Error pibe");*/
-
+    use Paw\Core\Exceptions\RouteNotFoundException;
 
 
     $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
     $log->info("Petición a: {$path}");
-    
-    $controller = new PageController;
 
-    switch ($path) {
-        case '/':
-            $controller->index();
-            $log->info("Respuesta exitosa: 200");
-            break;
-        case '/services':
-            $controller->services();
-            $log->info("Respuesta exitosa: 200");
-            break;
-            case '/about':
-                $controller->about();
-                $log->info("Respuesta exitosa: 200");
-                break;
-        default:
-                $controller = new ErrorController;
-                $controller->notFound();
-                $log->info("Path not Found: 404");
-            break;
+
+    try {
+        $router->direct($path);
+        $log->info("Status Code: 200 - {$path}");
+    } catch (RouteNotFoundException $e){
+        $router->direct('not_found');
+        $log->info("Path not Found: 404 Route Not Found", ["Error" => $e]);
+    } catch (Exception $e){
+        $router->direct('internal_error');
+        $log->error("Status Code: 500 - Internal Server Error", ["Error" => $e]);
     }
 
 
