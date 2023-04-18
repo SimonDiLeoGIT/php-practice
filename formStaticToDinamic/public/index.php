@@ -2,53 +2,35 @@
 
     require __DIR__ . '/../vendor/autoload.php';
 
+    use Paw\App\Controllers\PageController;
+    use Paw\App\Controllers\ErrorController;
+    
     $whoops = new \Whoops\Run;
     $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
     $whoops->register();
 
     /*throw new \Exception("Error pibe");*/
 
-    $menu = [
 
-        [
-            "href" => "/",
-            "name" => "Home"
-        ],
-        
-        [
-            "href" => "/about",
-            "name" => "Who We Are"
-        ],
-        
-        [
-            "href" => "/services",
-            "name" => "Services"
-        ],
+    $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
-    ];
+    $controller = new PageController;
 
-$path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-
-switch ($path) {
-    case '/':
-        $title = htmlspecialchars($_GET['nombre'] ?? "PAW");
-        require __DIR__ . '/../src/index.view.php';
-        break;
-    case '/services':
-        $main = "Services Page";
-        require __DIR__ . '/../src/service.view.php';
-        break;
-        case '/about':
-            $main = "Who We Are";
-            require __DIR__ . '/../src/about.view.php';
+    switch ($path) {
+        case '/':
+            $controller->index();
             break;
-
-    
-    default:
-            http_response_code(404);
-            require __DIR__ . '/../src/not-found.view.php';
-        break;
-}
+        case '/services':
+            $controller->services();
+            break;
+            case '/about':
+                $controller->about();
+                break;
+        default:
+                $controller = new ErrorController;
+                $controller->notFound();
+            break;
+    }
 
 
 /*echo "<pre>";
