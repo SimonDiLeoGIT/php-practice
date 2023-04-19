@@ -41,6 +41,7 @@
     public function services($procesado = false) {
 
       $main = "Services Page";
+      $title = "Services Page";
       require $this->viewsDir . 'service.view.php';
 
     }
@@ -54,6 +55,7 @@
     public function about() {
 
       $main = "Who We Are";
+      $title = "About";
       require $this->viewsDir . 'about.view.php';
 
     }

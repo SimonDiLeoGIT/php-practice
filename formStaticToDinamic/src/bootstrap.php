@@ -2,14 +2,26 @@
 
     require __DIR__ . '/../vendor/autoload.php';
 
-    use Paw\Core\Router;
     use Monolog\Logger;
     use Monolog\Handler\StreamHandler;
+    use Dotenv\Dotenv;
+
+    use Paw\Core\Router;
+    use Paw\Core\Config;
+
+    $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../');
+    $dotenv->load();
+
+    $config = new Config;
+    
+    # Formas de pedir un valor a DotEnv
+    # getenv("LOG_LEVEL");
+    # $_ENV["LOG_LEVEL"];
 
     $log = new Logger('mvc-app');
-    $log->pushHandler(new StreamHandler(__DIR__ . '/../logs/app.log', Logger::DEBUG));
-
-    
+    $handler = new StreamHandler($config->get("LOG_PATH"));
+    $handler->setLevel($config->get("LOG_LEVEL"));
+    $log->pushHandler($handler );
 
     $whoops = new \Whoops\Run;
     $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
@@ -22,3 +34,5 @@
     $router->post('/services', 'PageController@contactProccess');
     $router->get('not_found', 'ErrorController@notFound');
     $router->get('internal_error', 'ErrorController@internalError');
+
+?>

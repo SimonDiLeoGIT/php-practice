@@ -34,6 +34,7 @@ class ErrorController {
   public function notFound() {
 
     http_response_code(404);
+    $title = "Page not Found";
     require $this->viewsDir . 'not-found.view.php';
 
   }
