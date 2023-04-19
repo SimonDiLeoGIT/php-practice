@@ -33,7 +33,8 @@
 
     public function index() {
 
-      $title = htmlspecialchars($_GET['nombre'] ?? "PAW");
+      $title = "Home";
+      $main = "Home";
       require $this->viewsDir . 'index.view.php';
 
     }

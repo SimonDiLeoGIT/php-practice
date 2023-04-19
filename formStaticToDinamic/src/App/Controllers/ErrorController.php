@@ -41,6 +41,7 @@ class ErrorController {
 
   public function internalError() {
     http_response_code(500);
+    $title = "Internal Error";
     require $this->viewsDir . 'internal-error.view.php';
   }
 
