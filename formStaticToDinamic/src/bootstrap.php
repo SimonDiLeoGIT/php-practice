@@ -1,39 +1,40 @@
 <?php
 
-    require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-    use Monolog\Logger;
-    use Monolog\Handler\StreamHandler;
-    use Dotenv\Dotenv;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Dotenv\Dotenv;
 
-    use Paw\Core\Router;
-    use Paw\Core\Config;
-    use Paw\Core\Request;
+use Paw\Core\Router;
+use Paw\Core\Config;
+use Paw\Core\Request;
 
-    $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../');
-    $dotenv->load();
+$dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../');
+$dotenv->load();
 
-    $config = new Config;
-    
-    # Formas de pedir un valor a DotEnv
-    # getenv("LOG_LEVEL");
-    # $_ENV["LOG_LEVEL"];
+$config = new Config;
 
-    $log = new Logger('mvc-app');
-    $handler = new StreamHandler($config->get("LOG_PATH"));
-    $handler->setLevel($config->get("LOG_LEVEL"));
-    $log->pushHandler($handler );
+# Formas de pedir un valor a DotEnv
+# getenv("LOG_LEVEL");
+# $_ENV["LOG_LEVEL"];
 
-    $whoops = new \Whoops\Run;
-    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-    $whoops->register();
+$log = new Logger('mvc-app');
+$handler = new StreamHandler($config->get("LOG_PATH"));
+$handler->setLevel($config->get("LOG_LEVEL"));
+$log->pushHandler($handler);
 
-    $request = new Request();
+$whoops = new \Whoops\Run;
+$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();
 
-    $router = new Router;
-    $router->get('/', 'PageController@index');
-    $router->get('/about', 'PageController@about');
-    $router->get('/services', 'PageController@services');
-    $router->post('/services', 'PageController@contactProccess');
+$request = new Request();
+
+$router = new Router;
+$router->setLogger($log);
+$router->get('/', 'PageController@index');
+$router->get('/about', 'PageController@about');
+$router->get('/services', 'PageController@services');
+$router->post('/services', 'PageController@contactProccess');
 
 ?>
