@@ -12,6 +12,7 @@ class Autor extends Model
   public $fields = [
     "nombre" => null,
     "email" => null,
+    "id" => null,
   ];
 
   public function setNombre(string $nombre)
@@ -37,7 +38,19 @@ class Autor extends Model
         continue;
       }
       $method = "set" . ucfirst($field);
-      $this->method($values[$field]);
+      $this->$method($values[$field]);
     }
+  }
+
+  public function load($id)
+  {
+    $params = ["id" => $id];
+    $record = current($this->queryBuilder->select($this->table, $params));
+    $this->set($record);
+  }
+
+  public function setId($id)
+  {
+    $this->fields["id"] = $id;
   }
 }

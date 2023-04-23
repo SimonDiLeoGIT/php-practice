@@ -2,6 +2,7 @@
 
 namespace Paw\Core;
 
+use Paw\Core\Database\QueryBuilder;
 use Paw\Core\Model;
 
 class Controller
@@ -13,7 +14,7 @@ class Controller
   {
     global $connection, $log;
 
-    $this->viewsDir = __DIR__ . "/../views/";
+    $this->viewsDir = __DIR__ . "/../App/views/";
 
     $this->menu = [
 
@@ -30,6 +31,11 @@ class Controller
       [
         "href" => "/services",
         "name" => "Services"
+      ],
+
+      [
+        "href" => "/authors",
+        "name" => "Autores"
       ],
 
     ];

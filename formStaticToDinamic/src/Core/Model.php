@@ -4,7 +4,6 @@ namespace Paw\Core;
 
 use Paw\Core\Database\QueryBuilder;
 use Paw\Core\Traits\Loggable;
-use Psr\Log\LoggerAwareTrait;
 
 class Model
 {
