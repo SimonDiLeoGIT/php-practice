@@ -41,5 +41,9 @@ $router->get('/', 'PageController@index');
 $router->get('/about', 'PageController@about');
 $router->get('/services', 'PageController@services');
 $router->post('/services', 'PageController@contactProccess');
+$router->get('/authors', 'AuthorsController@index');
+$router->get('/author', 'AuthorsController@get');
+$router->get('/author/edit', 'AuthorsController@edit');
+$router->post('/author/edit', 'AuthorsController@set');
 
 ?>

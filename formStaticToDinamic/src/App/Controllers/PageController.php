@@ -1,66 +1,46 @@
 <?php
 
-  namespace Paw\App\Controllers;
+namespace Paw\App\Controllers;
 
-  class PageController {
+use Paw\Core\Controller;
 
-    public string $viewsDir;
+class PageController extends Controller
+{
 
-    public function __construct() {
-      
-      $this->viewsDir = __DIR__ . "/../views/";
+  public function index()
+  {
 
-      $this->menu = [
-
-        [
-            "href" => "/",
-            "name" => "Home"
-        ],
-        
-        [
-            "href" => "/about",
-            "name" => "Who We Are"
-        ],
-        
-        [
-            "href" => "/services",
-            "name" => "Services"
-        ],
-
-      ];
-
-    }
-
-    public function index() {
-
-      $title = "Home";
-      $main = "Home";
-      require $this->viewsDir . 'index.view.php';
-
-    }
-
-    public function services($procesado = false) {
-
-      $main = "Services Page";
-      $title = "Services Page";
-      require $this->viewsDir . 'service.view.php';
-
-    }
-
-    public function contactProccess(){
-      $formulario = $_POST;
-
-      $this->services(true);
-    }
-
-    public function about() {
-
-      $main = "Who We Are";
-      $title = "About";
-      require $this->viewsDir . 'about.view.php';
-
-    }
+    $title = "Home";
+    $main = "Home";
+    require $this->viewsDir . 'index.view.php';
 
   }
+
+  public function services($procesado = false)
+  {
+
+    $main = "Services Page";
+    $title = "Services Page";
+    require $this->viewsDir . 'service.view.php';
+
+  }
+
+  public function contactProccess()
+  {
+    $formulario = $_POST;
+
+    $this->services(true);
+  }
+
+  public function about()
+  {
+
+    $main = "Who We Are";
+    $title = "About";
+    require $this->viewsDir . 'about.view.php';
+
+  }
+
+}
 
 ?>

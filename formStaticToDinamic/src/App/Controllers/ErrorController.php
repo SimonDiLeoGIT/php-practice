@@ -2,36 +2,13 @@
 
 namespace Paw\App\Controllers;
 
-class ErrorController {
+use Paw\Core\Controller;
 
-  public string $viewsDir;
+class ErrorController extends Controller
+{
 
-  public function __construct() {
-    
-    $this->viewsDir = __DIR__ . "/../views/";
-
-    $this->menu = [
-
-      [
-          "href" => "/",
-          "name" => "Home"
-      ],
-      
-      [
-          "href" => "/about",
-          "name" => "Who We Are"
-      ],
-      
-      [
-          "href" => "/services",
-          "name" => "Services"
-      ],
-
-    ];
-
-  }
-
-  public function notFound() {
+  public function notFound()
+  {
 
     http_response_code(404);
     $title = "Page not Found";
@@ -39,7 +16,8 @@ class ErrorController {
 
   }
 
-  public function internalError() {
+  public function internalError()
+  {
     http_response_code(500);
     $title = "Internal Error";
     require $this->viewsDir . 'internal-error.view.php';
