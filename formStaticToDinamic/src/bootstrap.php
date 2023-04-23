@@ -6,6 +6,7 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Dotenv\Dotenv;
 
+use Paw\Core\Database\ConectionBuilder;
 use Paw\Core\Router;
 use Paw\Core\Config;
 use Paw\Core\Request;
@@ -23,6 +24,10 @@ $log = new Logger('mvc-app');
 $handler = new StreamHandler($config->get("LOG_PATH"));
 $handler->setLevel($config->get("LOG_LEVEL"));
 $log->pushHandler($handler);
+
+$connectionBulilder = new ConectionBuilder();
+$connectionBulilder->setLogger($log);
+$connection = $connectionBulilder->make($config);
 
 $whoops = new \Whoops\Run;
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
